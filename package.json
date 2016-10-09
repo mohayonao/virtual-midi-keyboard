@@ -1,0 +1,68 @@
+{
+  "name": "@mohayonao/virtual-midi-keyboard",
+  "description": "Electron-based MIDI Keyboard Simulator",
+  "version": "0.0.0",
+  "author": "Nao Yonamine <mohayonao@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/mohayonao/virtual-midi-keyboard/issues"
+  },
+  "dependencies": {
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-power-assert": "^1.0.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-register": "^6.16.3",
+    "classnames": "^2.2.5",
+    "color": "^0.11.3",
+    "express": "^4.14.0",
+    "ip": "^1.1.3",
+    "is-electron": "^2.0.0",
+    "midi": "^0.9.5",
+    "nmap": "^0.9.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
+    "socket.io": "^1.5.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0",
+    "electron-packager": "^8.1.0",
+    "electron-prebuilt": "^1.4.2",
+    "electron-rebuild": "^1.2.1",
+    "enzyme": "^2.4.1",
+    "eslint": "^3.7.1",
+    "eslint-plugin-react": "^6.3.0",
+    "mocha": "^3.1.0",
+    "npm-run-all": "^3.1.0",
+    "power-assert": "^1.4.1",
+    "react-addons-test-utils": "^15.3.2",
+    "run-with-mocha": "^1.0.0",
+    "sinon": "^1.17.6",
+    "watchify": "^3.7.0"
+  },
+  "engines": {
+    "node": ">= 6.0.0"
+  },
+  "homepage": "https://github.com/mohayonao/virtual-midi-keyboard/",
+  "license": "MIT",
+  "main": "index.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohayonao/virtual-midi-keyboard.git"
+  },
+  "scripts": {
+    "build": "browserify src/client/main.js --outfile public/bundle.js --verbose --transform [ babelify ]",
+    "clean": "rm -rf npm-debug.log",
+    "install": "electron-rebuild",
+    "lint": "eslint src test",
+    "package": "npm-run-all package:*",
+    "package:mac": "electron-packager . VirtualLaunchControl --platform darwin --arch x64 --overwrite",
+    "start": "electron .",
+    "test": "mocha",
+    "watch": "watchify src/client/main.js --outfile public/bundle.js --verbose --transform [ babelify ]"
+  }
+}
