@@ -1,7 +1,7 @@
 {
   "name": "@mohayonao/virtual-midi-keyboard",
   "description": "Electron-based MIDI Keyboard Simulator",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Nao Yonamine <mohayonao@gmail.com>",
   "bugs": {
     "url": "https://github.com/mohayonao/virtual-midi-keyboard/issues"
@@ -35,6 +35,8 @@
     "enzyme": "^2.4.1",
     "eslint": "^3.7.1",
     "eslint-plugin-react": "^6.3.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.noop": "^3.0.1",
     "mocha": "^3.1.0",
     "npm-run-all": "^3.1.0",
     "power-assert": "^1.4.1",
@@ -57,10 +59,11 @@
   "scripts": {
     "build": "browserify src/client/main.js --outfile public/bundle.js --verbose --transform [ babelify ]",
     "clean": "rm -rf npm-debug.log",
-    "install": "electron-rebuild",
+    "electron-rebuild": "electron-rebuild",
+    "install": "npm-run-all electron-rebuild build",
     "lint": "eslint src test",
     "package": "npm-run-all package:*",
-    "package:mac": "electron-packager . VirtualLaunchControl --platform darwin --arch x64 --overwrite",
+    "package:mac": "electron-packager . VirtualMIDIKeyboard --platform darwin --arch x64 --overwrite",
     "start": "electron .",
     "test": "mocha",
     "watch": "watchify src/client/main.js --outfile public/bundle.js --verbose --transform [ babelify ]"

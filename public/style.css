@@ -9,6 +9,7 @@ html, body {
 
 body {
   background: #000000;
+  overflow: hidden;
 }
 
 #app {
@@ -16,6 +17,9 @@ body {
   height: 100%;
 }
 
-svg {
+.app {
+  font-family: "Helvetica";
+  user-select: none;
+  -webkit-user-select: none;
   background: #3a3934;
 }

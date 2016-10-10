@@ -10,7 +10,6 @@ Electron-based MIDI Keyboard Simulator
 $ git clone https://github.com/mohayonao/virtual-midi-keyboard.git
 $ cd virtual-midi-keyboard
 $ npm install
-$ npm run build
 ```
 
 ## Run
@@ -19,24 +18,17 @@ $ npm run build
 $ npm start
 ```
 
-open an Electron-based
+### ...with Web Based App
 
-## Build (for macOS)
-
-```
-$ npm run build
-$ npm run package
-```
-
-## and Web Based App
-
-If set the environment variable `PORT`, you can use the web-based app.
+If set the environment variable `PORT`, you can use the web based app. In the web based app with a tablet, you would get the UX that is closer to a hardware MIDI Device.
 
 ```
 $ PORT=7700 npm start
 ```
 
-![web screen shot](./assets/web.png)
+## Keyboard Layout
+
+![keyboard layout](./assets/key-layout.png)
 
 ## License
 
