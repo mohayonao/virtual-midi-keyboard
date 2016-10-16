@@ -27,4 +27,19 @@ describe("reducer", () => {
     assert.deepEqual(actual, expected);
     assert(actual.data === initState.data);
   });
+
+  it("apply pacth", () => {
+    const action = actionCreators.applyPatch([
+      { op: "add", path: "/value", value: 100 }
+    ]);
+    const initState = clone(reducer(undefined, {}));
+    const expected = clone(initState); {
+      expected.value = 100;
+    }
+    const actual = reducer(initState, action);
+
+    assert(actual !== initState);
+    assert.deepEqual(actual, expected);
+    assert(actual.data === initState.data);
+  });
 });

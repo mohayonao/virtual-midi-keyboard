@@ -3,15 +3,17 @@ import * as types from "../../common/ActionTypes";
 export function ipcIO() {
   const { ipcRenderer } = global.require("electron");
 
-  function recvState(callback) {
-    ipcRenderer.on(types.SET_STATE, (_, state) => {
+  function on(type, callback) {
+    ipcRenderer.on(type, (_, state) => {
       callback(state);
     });
   }
 
   function sendAction(action) {
-    ipcRenderer.send(types.SEND_ACTION, action);
+    if (action.type !== types.SET_STATE && action.type !== types.APPLY_PATCH) {
+      ipcRenderer.send(types.SEND_ACTION, action);
+    }
   }
 
-  return { recvState, sendAction };
+  return { on, sendAction };
 }

@@ -38,8 +38,7 @@ export default class SocketServer extends EventEmitter {
     this.state = state;
   }
 
-  sendState(state) {
-    this.state = { ...this.state, ...state };
-    this.webSocket.emit(types.SET_STATE, state);
+  applyPatch(patch) {
+    this.webSocket.emit(types.APPLY_PATCH, patch);
   }
 }

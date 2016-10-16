@@ -4,6 +4,10 @@ export function setState(state) {
   return { type: types.SET_STATE, state };
 }
 
+export function applyPatch(patch) {
+  return { type: types.APPLY_PATCH, patch };
+}
+
 export function noteOn(noteNumber, velocity) {
   return { type: types.NOTE_ON, noteNumber, velocity };
 }

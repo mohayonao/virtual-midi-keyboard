@@ -1,6 +1,7 @@
 import path from "path";
 import { app, ipcMain, BrowserWindow  } from "electron";
 import { createStore, applyMiddleware, bindActionCreators } from "redux";
+import { compare as diff } from "fast-json-patch";
 import inject from "../common/middlewares/inject";
 import reducer from "./reducer";
 import MIDIDevice from "./midi/MIDIDevice";
@@ -8,7 +9,6 @@ import SocketServer from "./server/SocketServer";
 import * as actionCreators from "./actions";
 import * as types from "../common/ActionTypes";
 import { DEVICE_NAME } from "../common/constants";
-import { isEmpty, diff } from "../common/utils";
 
 const PUBLIC_PATH = path.join(__dirname, "..", "..", "public");
 
@@ -61,14 +61,14 @@ function updateState(nextState) {
   if (nextState === state) {
     return;
   }
-  const diffState = diff(state, nextState);
+  const patch = diff(state, nextState);
 
-  if (!isEmpty(diffState)) {
+  if (patch.length) {
     if (mainWindow) {
-      mainWindow.webContents.send(types.SET_STATE, diffState);
+      mainWindow.webContents.send(types.APPLY_PATCH, patch);
     }
     if (server) {
-      server.sendState(diffState);
+      server.applyPatch(patch);
     }
   }
 

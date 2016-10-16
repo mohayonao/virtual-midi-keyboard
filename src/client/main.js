@@ -16,14 +16,15 @@ window.addEventListener("DOMContentLoaded", () => {
   const actions = bindActionCreators(actionCreators, store.dispatch);
   const io = isElectron() ? ipcIO() : socketIO();
 
-  io.recvState((state) => {
+  io.on(types.SET_STATE, (state) => {
     actions.setState(state);
+  });
+  io.on(types.APPLY_PATCH, (patch) => {
+    actions.applyPatch(patch);
   });
 
   function stateHandler(action) {
-    if (action.type !== types.SET_STATE) {
-      io.sendAction(action);
-    }
+    io.sendAction(action);
   }
 
   ReactDOM.render(

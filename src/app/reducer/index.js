@@ -1,3 +1,4 @@
+import patch from "json-touch-patch";
 import initState from "../../common/initState";
 import * as types from "../../common/ActionTypes";
 import { clamp } from "../../common/utils";
@@ -6,19 +7,13 @@ export default (state = initState, action) => {
   switch (action.type) {
   case types.DATA_SET:
   case types.NOTE_ON:
-    if (0 <= action.noteNumber && action.noteNumber < state.data.length) {
-      if (state.data[action.noteNumber] !== action.velocity) {
-        return { ...state, data: [].concat(state.data.slice(0, action.noteNumber), action.velocity, state.data.slice(action.noteNumber + 1)) };
-      }
-    }
-    break;
+    return patch(state, [
+      { op: "replace", path: `/data/${ action.noteNumber }`, value: action.velocity },
+    ]);
   case types.NOTE_OFF:
-    if (0 <= action.noteNumber && action.noteNumber < state.data.length) {
-      if (state.data[action.noteNumber] !== 0) {
-        return { ...state, data: [].concat(state.data.slice(0, action.noteNumber), 0, state.data.slice(action.noteNumber + 1)) };
-      }
-    }
-    break;
+    return patch(state, [
+      { op: "replace", path: `/data/${ action.noteNumber }`, value: 0 },
+    ]);
   case types.ALL_NOTE_OFF:
     return { ...state, data: state.data.map(() => 0) };
   case types.OCTAVE_SET:

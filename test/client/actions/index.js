@@ -11,6 +11,13 @@ describe("actions", () => {
     assert.deepEqual(actual, expected);
   });
 
+  it("applyPatch should create APPLY_PATCH", () => {
+    const actual = actionCreators.applyPatch([ { op: "add" } ]);
+    const expected = { type: types.APPLY_PATCH, patch: [ { op: "add" } ] };
+
+    assert.deepEqual(actual, expected);
+  });
+
   it("noteOn should create NOTE_ON action", () => {
     const actual = actionCreators.noteOn(69, 100);
     const expected = { type: types.NOTE_ON, noteNumber: 69, velocity: 100 };

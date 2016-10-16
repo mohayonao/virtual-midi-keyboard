@@ -1,5 +1,6 @@
 export const SEND_ACTION = "SEND_ACTION";
 export const SET_STATE = "SET_STATE";
+export const APPLY_PATCH = "APPLY_PATCH";
 export const NOTE_ON  = "NOTE_ON";
 export const NOTE_OFF = "NOTE_OFF";
 export const ALL_NOTE_OFF = "ALL_NOTE_OFF";
