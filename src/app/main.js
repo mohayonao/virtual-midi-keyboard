@@ -2,8 +2,8 @@ import path from "path";
 import { app, ipcMain, BrowserWindow  } from "electron";
 import { createStore, applyMiddleware, bindActionCreators } from "redux";
 import { compare as diff } from "fast-json-patch";
-import inject from "../common/middlewares/inject";
-import reducer from "./reducer";
+import inject from "../common/middleware/inject";
+import reducers from "./reducers";
 import MIDIDevice from "./midi/MIDIDevice";
 import SocketServer from "./server/SocketServer";
 import * as actionCreators from "./actions";
@@ -12,7 +12,7 @@ import { DEVICE_NAME } from "../common/constants";
 
 const PUBLIC_PATH = path.join(__dirname, "..", "..", "public");
 
-const store = createStore(reducer, applyMiddleware(inject(midiHandler)));
+const store = createStore(reducers, applyMiddleware(inject(midiHandler)));
 const actions = bindActionCreators(actionCreators, store.dispatch);
 
 let mainWindow = null;
