@@ -1,1 +1,1 @@
-export const DEVICE_NAME = "MIDI Keyboard";
+export const DEVICE_NAME = "Virtual MIDI Keyboard";
