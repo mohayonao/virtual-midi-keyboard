@@ -8,6 +8,14 @@ export function applyPatch(patch) {
   return { type: types.APPLY_PATCH, patch };
 }
 
+export function midiChannelSet(value) {
+  return { type: types.MIDI_CHANNEL_SET, value };
+}
+
+export function midiChannelShift(value) {
+  return { type: types.MIDI_CHANNEL_SHIFT, value: Math.sign(value) };
+}
+
 export function noteOn(noteNumber, velocity) {
   return { type: types.NOTE_ON, noteNumber, velocity };
 }
@@ -21,7 +29,7 @@ export function octaveSet(value) {
 }
 
 export function octaveShift(value) {
-  return { type: types.OCTAVE_SHIFT, shift: Math.sign(value) };
+  return { type: types.OCTAVE_SHIFT, value: Math.sign(value) };
 }
 
 export function velocitySet(value) {
@@ -29,13 +37,5 @@ export function velocitySet(value) {
 }
 
 export function velocityShift(value) {
-  return { type: types.VELOCITY_SHIFT, shift: Math.sign(value) };
-}
-
-export function midiChannelSet(value) {
-  return { type: types.MIDI_CHANNEL_SET, value };
-}
-
-export function midiChannelShift(value) {
-  return { type: types.MIDI_CHANNEL_SHIFT, shift: Math.sign(value) };
+  return { type: types.VELOCITY_SHIFT, value: Math.sign(value) };
 }

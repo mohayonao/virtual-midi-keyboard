@@ -5,10 +5,18 @@ import { clamp } from "../../common/utils";
 
 export default (state = initState, action) => {
   switch (action.type) {
+  case types.MIDI_CHANNEL_SET:
+    return patch(state, [
+      { op: "replace", path: "/midiChannel", value: midiChannel(action.value) },
+    ]);
+  case types.MIDI_CHANNEL_SHIFT:
+    return patch(state, [
+      { op: "replace", path: "/midiChannel", value: midiChannel(state.midiChannel + action.value) },
+    ]);
   case types.DATA_SET:
   case types.NOTE_ON:
     return patch(state, [
-      { op: "replace", path: `/data/${ action.noteNumber }`, value: action.velocity },
+      { op: "replace", path: `/data/${ action.noteNumber }`, value: velocity(action.velocity) },
     ]);
   case types.NOTE_OFF:
     return patch(state, [
@@ -17,54 +25,35 @@ export default (state = initState, action) => {
   case types.ALL_NOTE_OFF:
     return { ...state, data: state.data.map(() => 0) };
   case types.OCTAVE_SET:
-    if (action.value !== state.octave && 0 <= action.value && action.value < 8) {
-      return { ...state, octave: action.value };
-    }
-    break;
+    return patch(state, [
+      { op: "replace", path: "/octave", value: octave(action.value) },
+    ]);
   case types.OCTAVE_SHIFT:
-    {
-      const octave = octaveShift(state.octave, action.shift);
-
-      if (Number.isFinite(octave) && octave !== state.octave) {
-        return { ...state, octave };
-      }
-    }
-    break;
+    return patch(state, [
+      { op: "replace", path: "/octave", value: octave(state.octave + action.value) },
+    ]);
   case types.VELOCITY_SET:
-    if (action.value !== state.velocity && 1 <= action.value && action.value < 128) {
-      return { ...state, velocity: action.value };
-    }
-    break;
+    return patch(state, [
+      { op: "replace", path: "/velocity", value: velocity(action.value) },
+    ]);
   case types.VELOCITY_SHIFT:
-    {
-      const velocity = velocityShift(state.velocity, action.shift);
-
-      if (Number.isFinite(velocity) && velocity !== state.velocity) {
-        return { ...state, velocity };
-      }
-    }
-    break;
-  case types.MIDI_CHANNEL_SET:
-    if (action.value !== state.midiChannel && 0 <= action.value && action.value < 16) {
-      return { ...state, midiChannel: action.value };
-    }
-    break;
-  case types.MIDI_CHANNEL_SHIFT:
-    {
-      const midiChannel = clamp(state.midiChannel + action.shift, 0, 15);
-
-      if (Number.isFinite(midiChannel) && midiChannel !== state.midiChannel) {
-        return { ...state, midiChannel };
-      }
-    }
-    break;
+    return patch(state, [
+      { op: "replace", path: "/velocity", value: velocityShift(state.velocity, action.value) },
+    ]);
   }
   return state;
 };
 
-export function octaveShift(octave, shift) {
-  octave += shift;
-  return clamp(octave, 0, 7);
+export function midiChannel(value) {
+  return clamp(value, 0, 15);
+}
+
+export function velocity(value) {
+  return clamp(value, 0, 127);
+}
+
+export function octave(value) {
+  return clamp(value, 0, 8);
 }
 
 export function velocityShift(velocity, shift) {

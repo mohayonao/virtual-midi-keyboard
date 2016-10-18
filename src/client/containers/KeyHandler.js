@@ -13,40 +13,31 @@ export function keyDown(keyCode, props) {
   KeyOn.add(keyCode);
 
   const { actions, octave, velocity } = props;
-  const keyIndex = KeyLayout.indexOf(keyCode);
 
-  if (keyIndex !== -1) {
-    const noteNumber = keyIndex + octave * 12 + 24;
-
-    actions.noteOn(noteNumber, velocity);
-  } else {
-    switch (keyCode) {
-    case 90: // "Z"
-      actions.octaveShift(-1);
-      break;
-    case 88: // "X"
-      actions.octaveShift(+1);
-      break;
-    case 67: // "C"
-      actions.velocityShift(-1);
-      break;
-    case 86: // "V"
-      actions.velocityShift(+1);
-      break;
-    case 188: // "<"
-      if (state.shift) {
-        actions.midiChannelShift(-1);
-      }
-      break;
-    case 190: // ">"
-      if (state.shift) {
-        actions.midiChannelShift(+1);
-      }
-      break;
-    case 16: // shift
-      state.shift = true;
-      break;
+  if (state.shift) {
+    if (keyCode === 188) {
+      actions.midiChannelShift(-1);
+    } else if (keyCode === 190) {
+      actions.midiChannelShift(+1);
     }
+  } else {
+    const keyIndex = KeyLayout.indexOf(keyCode);
+
+    if (keyIndex !== -1) {
+      actions.noteOn(keyIndex + octave * 12 + 24, velocity);
+    } else if (keyCode === 90) { // "Z"
+      actions.octaveShift(-1);
+    } else if (keyCode === 88) { // "X"
+      actions.octaveShift(+1);
+    } else if (keyCode === 67) { // "C"
+      actions.velocityShift(-1);
+    } else if (keyCode === 86) { // "V"
+      actions.velocityShift(+1);
+    }
+  }
+
+  if (keyCode === 16) {
+    state.shift = true;
   }
 }
 
@@ -60,9 +51,7 @@ export function keyUp(keyCode, props) {
   const keyIndex = KeyLayout.indexOf(keyCode);
 
   if (keyIndex !== -1) {
-    const noteNumber = keyIndex + octave * 12 + 24;
-
-    actions.noteOff(noteNumber);
+    actions.noteOff(keyIndex + octave * 12 + 24);
   } else if (keyCode === 16) {
     state.shift = false;
   }

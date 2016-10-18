@@ -1,6 +1,8 @@
 export const SEND_ACTION = "SEND_ACTION";
 export const SET_STATE = "SET_STATE";
 export const APPLY_PATCH = "APPLY_PATCH";
+export const MIDI_CHANNEL_SET   = "MIDI_CHANNEL_SET";
+export const MIDI_CHANNEL_SHIFT = "MIDI_CHANNEL_SHIFT";
 export const NOTE_ON  = "NOTE_ON";
 export const NOTE_OFF = "NOTE_OFF";
 export const ALL_NOTE_OFF = "ALL_NOTE_OFF";
@@ -9,5 +11,3 @@ export const OCTAVE_SET   = "OCTAVE_SET";
 export const OCTAVE_SHIFT = "OCTAVE_SHIFT";
 export const VELOCITY_SET   = "VELOCITY_SET";
 export const VELOCITY_SHIFT = "VELOCITY_SHIFT";
-export const MIDI_CHANNEL_SET   = "MIDI_CHANNEL_SET";
-export const MIDI_CHANNEL_SHIFT = "MIDI_CHANNEL_SHIFT";

@@ -26,11 +26,11 @@ class App extends Component {
     this.onTouchEnd = ::this.onTouchEnd;
     this.onKeyDown = ::this.onKeyDown;
     this.onKeyUp = ::this.onKeyUp;
+    this.onMIDIChannelSelect = ::this.onMIDIChannelSelect;
     this.onNoteOn = ::this.onNoteOn;
     this.onNoteOff = ::this.onNoteOff;
     this.onOctaveSelect = ::this.onOctaveSelect;
     this.onVelocitySelect = ::this.onVelocitySelect;
-    this.onMIDIChannelSelect = ::this.onMIDIChannelSelect;
   }
 
   componentDidMount() {
@@ -69,34 +69,24 @@ class App extends Component {
     keyUp(e.keyCode, this.props);
   }
 
-  onNoteOn(noteNumber) {
-    const { actions, velocity } = this.props;
+  onMIDIChannelSelect(index) {
+    this.props.actions.midiChannelSet(index);
+  }
 
-    actions.noteOn(noteNumber, velocity);
+  onNoteOn(noteNumber) {
+    this.props.actions.noteOn(noteNumber, this.props.velocity);
   }
 
   onNoteOff(noteNumber) {
-    const { actions, velocity } = this.props;
-
-    actions.noteOff(noteNumber, velocity);
+    this.props.actions.noteOff(noteNumber);
   }
 
   onOctaveSelect(index) {
-    const { actions } = this.props;
-
-    actions.octaveSet(index);
+    this.props.actions.octaveSet(index);
   }
 
   onVelocitySelect(index) {
-    const { actions } = this.props;
-
-    actions.velocitySet([ 1, 20, 40, 60, 80, 100, 120, 127 ][index]);
-  }
-
-  onMIDIChannelSelect(index) {
-    const { actions } = this.props;
-
-    actions.midiChannelSet(index);
+    this.props.actions.velocitySet([ 1, 20, 40, 60, 80, 100, 120, 127 ][index]);
   }
 
   render() {

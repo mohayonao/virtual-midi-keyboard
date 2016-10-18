@@ -1,137 +1,124 @@
 import "run-with-mocha";
 import assert from "assert";
-import clone from "clone";
-import * as actionCreators from "../../../src/client/actions";
 import reducer from "../../../src/app/reducers";
+import { midiChannel, velocity } from "../../../src/app/reducers";
+import * as types from "../../../src/common/ActionTypes";
 
 describe("reducer", () => {
   it("init state", () => {
-    const initState = clone(reducer(undefined, {}));
+    const initState = reducer(undefined, {});
 
-    assert(initState.data.length === 128);
-    assert(initState.data.every(x => x === 0));
-    assert(typeof initState.octave === "number");
-    assert(typeof initState.velocity === "number");
-    assert(typeof initState.midiChannel === "number");
+    assert(typeof initState === "object");
   });
 
-  it("noteOn", () => {
-    const action = actionCreators.noteOn(69, 80);
-    const initState = clone(reducer(undefined, {}));
-    const expected = clone(initState); {
-      expected.data[69] = 80;
-    }
-    const actual = reducer(initState, action);
+  it("MIDI_CHANNEL_SET", () => {
+    const state = { midiChannel: 8 };
+    const action = { type: types.MIDI_CHANNEL_SET, value: 4 };
+    const nextState = reducer(state, action);
 
-    assert(actual !== initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.midiChannel === 4);
   });
 
-  it("noteOn / skip", () => {
-    const action = actionCreators.noteOn(255);
-    const initState = clone(reducer(undefined, {}));
-    const expected = clone(initState);
-    const actual = reducer(initState, action);
+  it("MIDI_CHANNEL_SHIFT", () => {
+    const state = { midiChannel: 8 };
+    const action = { type: types.MIDI_CHANNEL_SHIFT, value: -1 };
+    const nextState = reducer(state, action);
 
-    assert(actual === initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.midiChannel === 7);
   });
 
-  it("noteOff", () => {
-    const action = actionCreators.noteOff(69);
-    const initState = clone(reducer(undefined, {})); {
-      initState.data[69] = 100;
-    }
-    const expected = clone(initState); {
-      expected.data[69] = 0;
-    }
-    const actual = reducer(initState, action);
+  it("DATA_SET", () => {
+    const state = { data: [ 0, 0, 0, 0 ] };
+    const action = { type: types.DATA_SET, noteNumber: 1, velocity: 10 };
+    const nextState = reducer(state, action);
 
-    assert(actual !== initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.data[1] === 10);
   });
 
-  it("noteOff / skip", () => {
-    const action = actionCreators.noteOff(255);
-    const initState = clone(reducer(undefined, {})); {
-      initState.data[69] = 100;
-    }
-    const expected = clone(initState);
-    const actual = reducer(initState, action);
+  it("NOTE_ON", () => {
+    const state = { data: [ 0, 0, 0, 0 ] };
+    const action = { type: types.NOTE_ON, noteNumber: 1, velocity: 10 };
+    const nextState = reducer(state, action);
 
-    assert(actual === initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.data[1] === 10);
   });
 
-  it("octaveSet", () => {
-    const action = actionCreators.octaveSet(6);
-    const initState = clone(reducer(undefined, {}));
-    const expected = clone(initState); {
-      expected.octave = 6;
-    }
-    const actual = reducer(initState, action);
+  it("NOTE_OFF", () => {
+    const state = { data: [ 0, 10, 0, 0 ] };
+    const action = { type: types.NOTE_OFF, noteNumber: 1 };
+    const nextState = reducer(state, action);
 
-    assert(actual !== initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.data[1] === 0);
   });
 
-  it("octaveSfhit", () => {
-    const action = actionCreators.octaveShift(+1);
-    const initState = clone(reducer(undefined, {}));
-    const expected = clone(initState); {
-      expected.octave = initState.octave + 1;
-    }
-    const actual = reducer(initState, action);
+  it("ALL_NOTE_OFF", () => {
+    const state = { data: [ 10, 10, 10, 0 ] };
+    const action = { type: types.ALL_NOTE_OFF };
+    const nextState = reducer(state, action);
 
-    assert(actual !== initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.data[0] === 0);
+    assert(nextState.data[1] === 0);
+    assert(nextState.data[2] === 0);
+    assert(nextState.data[3] === 0);
   });
 
-  it("velocitySet", () => {
-    const action = actionCreators.velocitySet(50);
-    const initState = clone(reducer(undefined, {}));
-    const expected = clone(initState); {
-      expected.velocity = 50;
-    }
-    const actual = reducer(initState, action);
+  it("OCTAVE_SET", () => {
+    const state = { octave: 8 };
+    const action = { type: types.OCTAVE_SET, value: 4 };
+    const nextState = reducer(state, action);
 
-    assert(actual !== initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.octave === 4);
   });
 
-  it("velocitySfhit", () => {
-    const action = actionCreators.velocityShift(+1);
-    const initState = clone(reducer(undefined, {}));
-    const expected = clone(initState); {
-      expected.velocity = initState.velocity + 20;
-    }
-    const actual = reducer(initState, action);
+  it("OCTAVE_SHIFT", () => {
+    const state = { octave: 4 };
+    const action = { type: types.OCTAVE_SHIFT, value: -1 };
+    const nextState = reducer(state, action);
 
-    assert(actual !== initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.octave === 3);
   });
 
-  it("midiChannelSet", () => {
-    const action = actionCreators.midiChannelSet(8);
-    const initState = clone(reducer(undefined, {}));
-    const expected = clone(initState); {
-      expected.midiChannel = 8;
-    }
-    const actual = reducer(initState, action);
+  it("VELOCITY_SET", () => {
+    const state = { velocity: 64 };
+    const action = { type: types.VELOCITY_SET, value: 100 };
+    const nextState = reducer(state, action);
 
-    assert(actual !== initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.velocity === 100);
   });
 
-  it("midiChannelSfhit", () => {
-    const action = actionCreators.midiChannelShift(+1);
-    const initState = clone(reducer(undefined, {}));
-    const expected = clone(initState); {
-      expected.midiChannel = initState.midiChannel + 1;
-    }
-    const actual = reducer(initState, action);
+  it("VELOCITY_SHIFT", () => {
+    const state = { velocity: 100 };
+    const action = { type: types.VELOCITY_SHIFT, value: -1 };
+    const nextState = reducer(state, action);
 
-    assert(actual !== initState);
-    assert.deepEqual(actual, expected);
+    assert(state !== nextState);
+    assert(nextState.velocity === 80);
+  });
+
+  describe("midiChannel", () => {
+    it("range", () => {
+      assert(midiChannel(-1) ===  0);
+      assert(midiChannel( 0) ===  0);
+      assert(midiChannel(15) === 15);
+      assert(midiChannel(16) === 15);
+    });
+  });
+
+  describe("velocity", () => {
+    it("range", () => {
+      assert(velocity( -1) ===   0);
+      assert(velocity(  0) ===   0);
+      assert(velocity(127) === 127);
+      assert(velocity(128) === 127);
+    });
   });
 });

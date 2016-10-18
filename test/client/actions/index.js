@@ -41,7 +41,7 @@ describe("actions", () => {
 
   it("octaveShift should create OCTAVE_SHIFT action", () => {
     const actual = actionCreators.octaveShift(+10);
-    const expected = { type: types.OCTAVE_SHIFT, shift: 1 };
+    const expected = { type: types.OCTAVE_SHIFT, value: 1 };
 
     assert.deepEqual(actual, expected);
   });
@@ -55,7 +55,7 @@ describe("actions", () => {
 
   it("velocityShift should create VELOCITY_SHIFT action", () => {
     const actual = actionCreators.velocityShift(0);
-    const expected = { type: types.VELOCITY_SHIFT, shift: 0 };
+    const expected = { type: types.VELOCITY_SHIFT, value: 0 };
 
     assert.deepEqual(actual, expected);
   });
@@ -69,7 +69,7 @@ describe("actions", () => {
 
   it("midiChannelShift should create MIDI_CHANNEL_SHIFT action", () => {
     const actual = actionCreators.midiChannelShift(-10);
-    const expected = { type: types.MIDI_CHANNEL_SHIFT, shift: -1 };
+    const expected = { type: types.MIDI_CHANNEL_SHIFT, value: -1 };
 
     assert.deepEqual(actual, expected);
   });
