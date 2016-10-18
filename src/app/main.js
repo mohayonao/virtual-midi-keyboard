@@ -1,7 +1,7 @@
 import path from "path";
 import { app, ipcMain, BrowserWindow  } from "electron";
 import { createStore, applyMiddleware, bindActionCreators } from "redux";
-import { compare as diff } from "fast-json-patch";
+import { createPatch } from "rfc6902";
 import inject from "../common/middleware/inject";
 import reducers from "./reducers";
 import MIDIDevice from "./midi/MIDIDevice";
@@ -61,7 +61,7 @@ function updateState(nextState) {
   if (nextState === state) {
     return;
   }
-  const patch = diff(state, nextState);
+  const patch = createPatch(state, nextState);
 
   if (patch.length) {
     if (mainWindow) {
