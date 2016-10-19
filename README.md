@@ -1,6 +1,6 @@
 # Virtual MIDI Keyboard
 
-Electron-based MIDI Keyboard Simulator
+Electron-based Virtual MIDI Keyboard
 
 ![screen shot](./assets/screenshot.png)
 

@@ -1,6 +1,6 @@
 {
   "name": "@mohayonao/virtual-midi-keyboard",
-  "description": "Electron-based MIDI Keyboard Simulator",
+  "description": "Electron-based Virtual MIDI Keyboard",
   "version": "1.2.1",
   "author": "Nao Yonamine <mohayonao@gmail.com>",
   "bugs": {
