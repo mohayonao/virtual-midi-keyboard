@@ -15,7 +15,7 @@ export default class MIDIDevice {
     this.midiOutput = new midi.output();
     this.midiOutput.openVirtualPort(this.deviceName);
 
-    this.state = { midiChannel: 0 };
+    this.state = {};
   }
 
   setState(state) {

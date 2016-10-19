@@ -14,12 +14,13 @@ const PUBLIC_PATH = path.join(__dirname, "..", "..", "public");
 
 const store = createStore(reducers, applyMiddleware(inject(midiHandler)));
 const actions = bindActionCreators(actionCreators, store.dispatch);
+const midiDevice = new MIDIDevice(DEVICE_NAME, actions);
 
 let mainWindow = null;
 let server = null;
 let state = store.getState();
 
-const midiDevice = new MIDIDevice(DEVICE_NAME, actions);
+midiDevice.setState(state);
 
 app.on("window-all-closed", () => {
   actions.allNoteOff();
@@ -43,6 +44,9 @@ store.subscribe(() => {
 
   updateState(nextState);
   midiDevice.setState(nextState);
+  if (server) {
+    server.setState(nextState);
+  }
 });
 
 ipcMain.on(types.SEND_ACTION, (_, action) => {
