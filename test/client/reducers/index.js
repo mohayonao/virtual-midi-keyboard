@@ -14,9 +14,10 @@ describe("reducer", () => {
     const state = { foo: 0, bar: 1 };
     const action = { type: types.SET_STATE, state: { foo: 1, baz: 3 } };
     const nextState = reducer(state, action);
+    const expected = { foo: 1, bar: 1, baz: 3 };
 
     assert(state !== nextState);
-    assert.deepEqual(nextState, { foo: 1, bar: 1, baz: 3 });
+    assert.deepEqual(nextState, expected);
   });
 
   it("APPLY_PATCH", () => {
@@ -25,8 +26,9 @@ describe("reducer", () => {
        { op: "replace", path: "/bar", value: 2 },
     ] };
     const nextState = reducer(state, action);
+    const expected = { foo: 0, bar: 2 };
 
     assert(state !== nextState);
-    assert.deepEqual(nextState, { foo: 0, bar: 2 });
+    assert.deepEqual(nextState, expected);
   });
 });
