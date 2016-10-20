@@ -1,7 +1,7 @@
 {
   "name": "@mohayonao/virtual-midi-keyboard",
   "description": "Electron-based Virtual MIDI Keyboard",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "author": "Nao Yonamine <mohayonao@gmail.com>",
   "bugs": {
     "url": "https://github.com/mohayonao/virtual-midi-keyboard/issues"
