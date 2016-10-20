@@ -5,17 +5,34 @@ export default class MIDIDevice {
   constructor(deviceName, actions) {
     this.deviceName = deviceName;
     this.actions = actions;
-
-    this.midiInput = new midi.input();
-    this.midiInput.openVirtualPort(this.deviceName);
-    this.midiInput.on("message", (_, data) => {
-      this.recvMessage(...data);
-    });
-
-    this.midiOutput = new midi.output();
-    this.midiOutput.openVirtualPort(this.deviceName);
-
+    this.midiInput = null;
+    this.midiOutput = null;
     this.state = {};
+  }
+
+  open() {
+    if (this.midiInput === null) {
+      this.midiInput = new midi.input();
+      this.midiInput.openVirtualPort(this.deviceName);
+      this.midiInput.on("message", (_, data) => {
+        this.recvMessage(data);
+      });
+    }
+    if (this.midiOutput === null) {
+      this.midiOutput = new midi.output();
+      this.midiOutput.openVirtualPort(this.deviceName);
+    }
+  }
+
+  close() {
+    if (this.midiInput !== null) {
+      this.midiInput.closePort();
+      this.midiInput = null;
+    }
+    if (this.midiOutput !== null) {
+      this.midiOutput.closePort();
+      this.midiOutput = null;
+    }
   }
 
   setState(state) {
@@ -48,7 +65,7 @@ export default class MIDIDevice {
     this.sendMessage(0xb0 + this.state.midiChannel, 0x7b, 0x00);
   }
 
-  recvMessage(st, d1, d2) {
+  recvMessage([ st, d1, d2 ]) {
     if (st === 0x90 + this.state.midiChannel) {
       this.actions.noteOn(d1, d2);
     }
@@ -58,6 +75,8 @@ export default class MIDIDevice {
   }
 
   sendMessage(st, d1, d2) {
-    this.midiOutput.sendMessage([ st, d1, d2 ]);
+    if (this.midiOutput !== null) {
+      this.midiOutput.sendMessage([ st, d1, d2 ]);
+    }
   }
 }

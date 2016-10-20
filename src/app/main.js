@@ -20,8 +20,6 @@ let mainWindow = null;
 let server = null;
 let state = store.getState();
 
-midiDevice.setState(state);
-
 app.on("window-all-closed", () => {
   actions.allNoteOff();
   if (process.platform !== "darwin") {
@@ -37,6 +35,13 @@ app.on("ready", () => {
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+
+  midiDevice.open();
+  midiDevice.setState(state);
+});
+
+app.on("quit", () => {
+  midiDevice.close();
 });
 
 store.subscribe(() => {
