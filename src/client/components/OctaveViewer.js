@@ -18,11 +18,15 @@ export default class OctaveViewer extends Component {
     const { x, y, octave, onSelect } = this.props;
     const octaveIndex = octave;
     const elems = nmap(8, (_, i) => {
-      const color = octaveIndex === i ? 2 : 0;
-      const onClick = () => onSelect(i);
+      const data = octaveIndex === i ? 2 : 0;
+      const onValueChange = (data) => {
+        if (data) {
+          onSelect(i)
+        }
+      };
 
       return (
-        <LEDButton key={ i } cx={ i * 16 + x } cy={ y } color={ color } onClick={ onClick }/>
+        <LEDButton key={ i } cx={ i * 16 + x } cy={ y } data={ data } onValueChange={ onValueChange }/>
       );
     });
 

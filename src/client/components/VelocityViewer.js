@@ -18,11 +18,15 @@ export default class VelocityViewer extends Component {
     const { x, y, velocity, onSelect } = this.props;
     const velocityIndex = 125 <= velocity ? 7 : Math.floor(velocity / 20);
     const elems = nmap(8, (_, i) => {
-      const color = velocityIndex === i ? 2 : 0;
-      const onClick = () => onSelect(i);
+      const data = velocityIndex === i ? 2 : 0;
+      const onValueChange = (data) => {
+        if (data) {
+          onSelect(i)
+        }
+      };
 
       return (
-        <LEDButton key={ i } cx={ i * 16 + x } cy={ y } color={ color } onClick={ onClick }/>
+        <LEDButton key={ i } cx={ i * 16 + x } cy={ y } data={ data } onValueChange={ onValueChange }/>
       );
     });
 
