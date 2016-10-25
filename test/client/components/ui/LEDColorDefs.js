@@ -2,19 +2,19 @@ import "run-with-mocha";
 import assert from "assert";
 import React from "react";
 import { shallow } from "enzyme";
-import ColorDefs from "../../../src/client/components/ColorDefs";
+import LEDColorDefs from "../../../../src/client/components/ui/LEDColorDefs";
 
-function setup({ props, actions = {} } = {}) {
-  props = { ...props };
+function setup(props = {}) {
+  props = { colors: [], ...props };
 
   const component = shallow(
-    <ColorDefs { ...props } actions={ actions }/>
+    <LEDColorDefs { ...props }/>
   );
 
-  return { component, props, actions };
+  return { component, props };
 }
 
-describe("components/ColorDefs", () => {
+describe("components/ui/LEDColorDefs", () => {
   it("wrap <defs>", () => {
     const { component } = setup();
 
@@ -22,9 +22,9 @@ describe("components/ColorDefs", () => {
   });
 
   it("has radialGradient", () => {
-    const { component } = setup();
+    const { component } = setup({ colors: [ "#000", "#f00", "#0f0", "#00f" ] });
     const elems = component.find("radialGradient");
 
-    assert(elems.length !== 0);
+    assert(elems.length === 4);
   });
 });

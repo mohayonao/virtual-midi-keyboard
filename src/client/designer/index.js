@@ -1,3 +1,6 @@
+export const WIDTH = 1000;
+export const HEIGHT = 300;
+
 export const KEYBOARD_LAYOUT = [
   // key-type, position, note-offset
   [ 0,   0, -7 ], // F
@@ -27,6 +30,10 @@ export const KEYBOARD_LAYOUT = [
   [ 0, 840, 17 ], // F
   [ 1, 874, 18 ], // F#
   [ 0, 900, 19 ], // G
+];
+
+export const LEDColorMap = [
+  "#000000", "#6b0b00", "#d11500", "#ff5542",
 ];
 
 export const FONT_PARAMS = {
