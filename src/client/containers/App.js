@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import LEDColorDefs from "../components/ui/LEDColorDefs";
-import Panel from "../components/Panel";
+import FrontPanel from "../components/FrontPanel";
 import OctaveViewer from "../components/OctaveViewer";
 import VelocityViewer from "../components/VelocityViewer";
 import MIDIChannelViewer from "../components/MIDIChannelViewer";
@@ -111,7 +111,7 @@ class App extends Component {
     return (
       <svg className="app" style={ style } viewBox={ `0 0 ${ WIDTH } ${ HEIGHT }` }>
         <LEDColorDefs colors={ LEDColorMap }/>
-        <Panel />
+        <FrontPanel />
         <OctaveViewer { ...this.props } x={ 650 } y={ 45 } onSelect={ this.onOctaveSelect }/>
         <VelocityViewer { ...this.props } x={ 800 } y={ 45 } onSelect={ this.onVelocitySelect }/>
         <MIDIChannelViewer { ...this.props } x={ 960 } y={ 45 } onSelect={ this.onMIDIChannelSelect} />
