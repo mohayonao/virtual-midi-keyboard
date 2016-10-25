@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
-import LEDColorDefs from "../components/ui/LEDColorDefs";
+import ColorDefs from "../components/ColorDefs";
 import FrontPanel from "../components/FrontPanel";
 import OctaveViewer from "../components/OctaveViewer";
 import VelocityViewer from "../components/VelocityViewer";
 import MIDIChannelViewer from "../components/MIDIChannelViewer";
 import PianoKeyboard from "../components/PianoKeyboard";
-import { WIDTH, HEIGHT, LEDColorMap } from "../designer";
+import { WIDTH, HEIGHT } from "../designer";
 import { keyDown, keyUp } from "./KeyHandler";
 
 class App extends Component {
@@ -110,7 +110,7 @@ class App extends Component {
 
     return (
       <svg className="app" style={ style } viewBox={ `0 0 ${ WIDTH } ${ HEIGHT }` }>
-        <LEDColorDefs colors={ LEDColorMap }/>
+        <ColorDefs />
         <FrontPanel />
         <OctaveViewer { ...this.props } x={ 650 } y={ 45 } onSelect={ this.onOctaveSelect }/>
         <VelocityViewer { ...this.props } x={ 800 } y={ 45 } onSelect={ this.onVelocitySelect }/>
