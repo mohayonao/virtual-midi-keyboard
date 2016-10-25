@@ -21,7 +21,6 @@ let server = null;
 let state = store.getState();
 
 app.on("window-all-closed", () => {
-  actions.allNoteOff();
   if (process.platform !== "darwin") {
     app.quit();
   }
