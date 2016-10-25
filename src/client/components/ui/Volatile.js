@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function VolatileSurface(timeout) {
+export default function Volatile(opts = { timeout: 1000 }) {
   return (Component) => {
-    return class VolatileSurfaceComponent extends React.Component {
+    return class VolatileComponent extends React.Component {
       constructor(props) {
         super(...props);
 
@@ -17,7 +17,7 @@ export default function VolatileSurface(timeout) {
           clearTimeout(this._timerId);
           this._timerId = setTimeout(() => {
             this.setState({ visible: false });
-          }, timeout);
+          }, opts.timeout);
         }
       }
 
