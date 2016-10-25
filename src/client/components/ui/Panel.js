@@ -1,21 +1,15 @@
-import React, { Component, PropTypes } from "react";
+import React from "react";
 
-export default class Panel extends Component {
-  static propTypes = {
-    render: PropTypes.func.isRequired,
-  };
+export default function Panel() {
+  return (Component) => {
+    return class Panel extends React.Component {
+      shouldComponentUpdate() {
+        return false;
+      }
 
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  render() {
-    const elems = this.props.render();
-
-    if (!Array.isArray(elems) || elems.length === 0) {
-      return null;
+      render() {
+        return (<Component { ...this.props }/>);
+      }
     }
-
-    return (<g className="panel">{ this.props.render() }</g>);
-  }
+  };
 }
