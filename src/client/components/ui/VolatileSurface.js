@@ -1,42 +1,36 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class VolatileSurface extends Component {
-  constructor(...args) {
-    super(...args);
+export default function VolatileSurface(timeout) {
+  return (Component) => {
+    return class VolatileSurfaceComponent extends React.Component {
+      constructor(props) {
+        super(...props);
 
-    this.state = { visible: false };
+        this.state = { visible: false };
 
-    this._timerId = 0;
-    this._shouldComponentUpdate = this.shouldComponentUpdate;
+        this._timerId = 0;
+      }
 
-    this.shouldComponentUpdate = (_, nextState) => {
-      return nextState.visible || (nextState.visible !== this.state.visible);
+      componentWillReceiveProps(nextProps) {
+        if (this::Component.prototype.shouldComponentUpdate(nextProps)) {
+          this.setState({ visible: true });
+          clearTimeout(this._timerId);
+          this._timerId = setTimeout(() => {
+            this.setState({ visible: false });
+          }, timeout);
+        }
+      }
+
+      shouldComponentUpdate(_, nextState) {
+        return nextState.visible || (nextState.visible !== this.state.visible);
+      }
+
+      render() {
+        if (!this.state.visible) {
+          return null;
+        }
+        return (<Component { ...this.props }/>);
+      }
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (::this._shouldComponentUpdate(nextProps)) {
-      this.setState({ visible: true });
-      clearTimeout(this._timerId);
-      this._timerId = setTimeout(() => {
-        this.setState({ visible: false });
-      }, 1000);
-    }
-  }
-
-  render() {
-    if (!this.state.visible) {
-      return null;
-    }
-
-    const elems = this.renderChild();
-
-    if (!elems) {
-      return null;
-    }
-
-    return (<g>{ elems }</g>);
-  }
-
-  renderChild() {}
+  };
 }
