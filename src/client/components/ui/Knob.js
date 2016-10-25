@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import UIComponent from "./UIComponent";
 
-export default function Knob(styles) {
+export default function Knob(_, styles) {
   return @UIComponent() class KnobComponent extends Component {
     static propTypes = {
       data         : PropTypes.number.isRequired,
