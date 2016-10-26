@@ -1,24 +1,24 @@
-import React, { PropTypes } from "react";
-
-const events = [ "onMouseDown", "onMouseUp", "onMouseMove", "onMouseOut", "onTouchStart", "onTouchEnd", "onTouchMove" ];
+import React, { Component, PropTypes } from "react";
 
 export default function UIComponent() {
-  return (Component) => {
-    return class UIComponent extends React.Component {
+  return (BaseComponent) => {
+    const events = Object.getOwnPropertyNames(
+      BaseComponent.prototype
+    ).filter(methodName => methodName.match(/^on[A-Z]/));
+
+    return class UIComponent extends Component {
       static propTypes = {
         data: PropTypes.number.isRequired,
       };
 
-      constructor(...args)  {
+      constructor(...args) {
         super(...args);
 
         this._events = {};
         events.forEach((eventName) => {
-          if (Component.prototype[eventName]) {
-            this._events[eventName] = (e) => {
-              this.refs.child[eventName](e);
-            };
-          }
+          this._events[eventName] = (e) => {
+            this.refs.child[eventName](e);
+          };
         });
       }
 
@@ -29,7 +29,7 @@ export default function UIComponent() {
       render() {
         return (
           <g { ...this._events }>
-            <Component { ...this.props } ref="child"/>
+            <BaseComponent { ...this.props } ref="child"/>
           </g>
         );
       }

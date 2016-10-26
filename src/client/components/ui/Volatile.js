@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 
 export default function Volatile(opts = { timeout: 1000 }) {
-  return (Component) => {
-    return class VolatileComponent extends React.Component {
+  return (BaseComponent) => {
+    return class VolatileComponent extends Component {
       constructor(props) {
-        super(...props);
+        super(props);
 
         this.state = { visible: false };
 
@@ -12,7 +12,7 @@ export default function Volatile(opts = { timeout: 1000 }) {
       }
 
       componentWillReceiveProps(nextProps) {
-        if (this::Component.prototype.shouldComponentUpdate(nextProps)) {
+        if (this::BaseComponent.prototype.shouldComponentUpdate(nextProps)) {
           this.setState({ visible: true });
           clearTimeout(this._timerId);
           this._timerId = setTimeout(() => {
@@ -29,7 +29,7 @@ export default function Volatile(opts = { timeout: 1000 }) {
         if (!this.state.visible) {
           return null;
         }
-        return (<Component { ...this.props }/>);
+        return (<BaseComponent { ...this.props }/>);
       }
     };
   };

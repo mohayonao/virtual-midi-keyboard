@@ -3,8 +3,8 @@ import UIComponent from "./UIComponent";
 
 const shapes = {};
 
-export default function Slider(orientation, styles) {
-  const delegate = shapes[orientation];
+export default function Slider(shape, styles) {
+  const delegate = shapes[shape];
 
   return @UIComponent() class SliderComponent extends Component {
     static propTypes = {
@@ -17,9 +17,7 @@ export default function Slider(orientation, styles) {
 
     constructor(...args) {
       super(...args);
-
       this.state = { focus: false };
-
       this._styles = this::delegate.computeStyles(this.props, styles);
     }
 
@@ -74,7 +72,7 @@ export default function Slider(orientation, styles) {
     }
 
     render() {
-      return this::delegate.render(this.props.data, this._styles);
+      return this::delegate.render(this.props.data, this._styles, this.state.focus);
     }
   };
 }
@@ -93,8 +91,8 @@ shapes["horizontal"] = {
   computeValue({ x }, styles) {
     return linlin(x - styles.x, 0, styles.width, 0, 127);
   },
-  render(data, styles) {
-    const color = "#77756b";
+  render(data, styles, focus) {
+    const color = focus ? "#b5b1a2" : "#77756b";
     const { x, y, cy, width, height } = styles;
     const cx = linlin(data, 0, 127, x, x + width);
     const d0 = `M${ x },${ cy } L${ x + width },${ cy }`;
@@ -124,8 +122,8 @@ shapes["vertical"] = {
   computeValue({ y }, styles) {
     return linlin(y - styles.y, 0, styles.height, 127, 0);
   },
-  render(data, styles) {
-    const color = "#77756b";
+  render(data, styles, focus) {
+    const color = focus ? "#b5b1a2" : "#77756b";
     const { x, y, cx, width, height } = styles;
     const cy = linlin(data, 0, 127, y + height, y);
     const d0 = `M${ cx },${ y } L${ cx },${ y + height }`;
