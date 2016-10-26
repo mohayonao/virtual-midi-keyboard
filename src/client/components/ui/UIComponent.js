@@ -1,6 +1,6 @@
 import React, { PropTypes } from "react";
 
-const events = [ "onMouseDown", "onMouseUp", "onMouseMove", "onMouseOut", "onTouchStart", "onTouchEnd" ];
+const events = [ "onMouseDown", "onMouseUp", "onMouseMove", "onMouseOut", "onTouchStart", "onTouchEnd", "onTouchMove" ];
 
 export default function UIComponent() {
   return (Component) => {
