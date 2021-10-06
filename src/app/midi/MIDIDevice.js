@@ -10,7 +10,7 @@ export default class MIDIDevice {
   }
 
   open() {
-    this::operations.willMIDIPortOpen();
+    operations.willMIDIPortOpen();
     if (this.midiInput === null) {
       this.midiInput = new midi.input();
       this.midiInput.openVirtualPort(this.deviceName);
@@ -26,7 +26,7 @@ export default class MIDIDevice {
   }
 
   close() {
-    this::operations.willMIDIPortClose();
+    operations.willMIDIPortClose();
     if (this.midiInput !== null) {
       this.midiInput.closePort();
       this.midiInput = null;
